@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <script src="/node_modules/angular/angular.min.js"></script>
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/scripts/app.js"></script>
+  <script src="/node_modules/angular-resource/angular-resource.js"></script>
+  <script src="/scripts/services/restsvc.js"></script>
+  <script src="/scripts/controllers/mainctrl.js"></script>
+  <script src="/node_modules/angular-ui-mask/dist/mask.min.js"></script>
+  <link rel="stylesheet" href="/style/main.css" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <title>Formulário de Consulta</title>
+</head>
+
+<body>
+  <div ng-app="agreementApp" ng-controller="mainCtrl">
+    <div class="container">
+      <h2 class="text-center main title">
+      Dados pessoais
+    </h2>
+      <form name="consult">
+        <div class="form-horizontal">
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-2 col-sm-2 col-md-offset-5 col-sm-offset-2" for="name">Nome</label>
+            <div class="col-sm-5 col-md-5">
+              <input type="text" class="form-control" id="name" name="name" ng-model="name" placeholder="Seu nome" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-2 col-sm-2 col-md-offset-0 col-sm-offset-2" for="company">Empresa</label>
+            <div class="col-sm-5 col-md-5">
+              <input type="text" class="form-control" id="company" name="company" ng-model="company" placeholder="Sua empresa" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-3 col-sm-2 col-md-offset-4 col-sm-offset-2" for="telephone">Telefone</label>
+            <div class="col-sm-5 col-md-5">
+              <input type="text" class="form-control" id="telephone" name="telephone" ng-model="telephone" ui-mask="(99) 9999-9999" ui-mask-placeholder name="telephone" placeholder="(11) 1111-1111" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-sm-2 col-md-2 col-md-offset-0 col-sm-offset-2" for="city">Cidade</label>
+            <div class="col-sm-5 col-md-5">
+              <input type="text" class="form-control" id="city" name="city" ng-model="city" placeholder="Ex: São Paulo" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-sm-2 col-md-2 col-md-offset-5 col-sm-offset-2" for="email">E-mail</label>
+            <div class="col-sm-5 col-md-5">
+              <input type="email" class="form-control" id="email" name="email" ng-model="email" placeholder="exemplo@email.com" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-2 col-sm-2 col-md-offset-0 col-sm-offset-2" for="type">Consulta</label>
+            <div class="col-sm-5 col-md-5">
+              <select class="form-control" name="type" ng-model="type" id="type" required>
+          <option selected disabled value="">Tipo de Consulta</option>
+          <option value="cpf">Pessoa Física</option>
+          <option value="cnpj">Pessoa Jurídica</option>
+        </select>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="container" ng-if="type == 'cnpj'">
+      <div class="row">
+        <p class="text-center main message">
+          Obrigado pelo contato!<br /> Em breve você receberá o retorno de um de nossos especialistas
+        </p>
+      </div>
+    </div>
+    <div class="container" ng-if="type == 'cnpj'">
+      <div class="row">
+        <div class="text-center">
+          <input type="submit" form="consult" class="btn btn-lg btn-success main btn-cotar" value="Cotar">
+        </div>
+      </div>
+    </div>
+    <div ng-if="type == 'cpf'">
+      <div class="container">
+        <div class="col-sm-5 col-md-4 col-sm-offset-4 col-md-offset-4">
+          <select class="form-control" name="profession" ng-model="profession" id="profession" required>
+          <option selected disabled value="">Selecione a profissão que deseja cotar</option>
+          <option value="{{'p' + ($index+1)}}" ng-repeat="prof in professions">{{ prof.profession_name }}</option>
+        </select>
+        </div>
+      </div>
+      <div class="container">
+        <div class="col-md-12">
+          <h3 class="text-center main title-age">Informe a quantidade de vidas por faixa etária</h3>
+        </div>
+      </div>
+      <div class="container">
+        <div class="form-horizontal">
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-3 col-sm-3 col-md-offset-7 col-sm-offset-1" for="0_18">De 0 a 18 anos</label>
+            <div class="col-sm-5 col-md-2">
+              <input type="number" min="0" value="0" form="consult" class="form-control" id="0_18" name="0_18" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-1" for="39_43">De 39 a 43 anos</label>
+            <div class="col-sm-5 col-md-2">
+              <input type="number" min="0" value="0" form="consult" class="form-control" id="39_43" name="39_43" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-3 col-sm-3 col-md-offset-7 col-sm-offset-1" for="19_23">De 19 a 23 anos</label>
+            <div class="col-sm-5 col-md-2">
+              <input type="number" min="0" value="0" form="consult" class="form-control" id="19_23" name="19_23" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-1" for="44_48">De 44 a 48 anos</label>
+            <div class="col-sm-5 col-md-2">
+              <input type="number" min="0" value="0" form="consult" class="form-control" id="44_48" name="19_23" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-3 col-sm-3 col-md-offset-7 col-sm-offset-1" for="24_28">De 24 a 28 anos</label>
+            <div class="col-sm-5 col-md-2">
+              <input type="number" min="0" value="0" form="consult" class="form-control" id="24_28" name="19_23" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-1" for="49_53">De 49 a 53 anos</label>
+            <div class="col-sm-5 col-md-2">
+              <input type="number" min="0" value="0" form="consult" class="form-control" id="49_53" name="19_23" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-3 col-sm-3 col-md-offset-7 col-sm-offset-1" for="29_38">De 29 a 38 anos</label>
+            <div class="col-sm-5 col-md-2">
+              <input type="number" min="0" value="0" form="consult" class="form-control" id="29_38" name="19_23" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-1" for="54_58">De 54 a 58 anos</label>
+            <div class="col-sm-5 col-md-2">
+              <input type="number" min="0" value="0" form="consult" class="form-control" id="54_58" name="19_23" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-3 col-sm-3 col-md-offset-7 col-sm-offset-1" for="34_38">De 34 a 38 anos</label>
+            <div class="col-sm-5 col-md-2">
+              <input type="number" min="0" value="0" form="consult" class="form-control" id="34_38" name="19_23" required>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label class="control-label col-md-3 col-sm-3 col-md-offset-0 col-sm-offset-1" for="59_99">De 59 a 99 anos</label>
+            <div class="col-sm-5 col-md-2">
+              <input type="number" min="0" value="0" form="consult" class="form-control" id="59_99" name="59_99" required>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="text-center">
+            <input type="submit" form="consult" class="btn btn-lg btn-success main btn-cotar" value="Cotar">
+          </div>
+        </div>
+      </div>
+      </form>
+</body>
+
+</html>

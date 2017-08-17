@@ -1,0 +1,22 @@
+body {
+  font-family: 'Open Sans', sans-serif; }
+
+.main.title, .main.message {
+  margin-top: 1em;
+  margin-bottom: 1em; }
+.main.profession {
+  margin-top: 1em;
+  margin-bottom: 1em; }
+.main.title-age {
+  margin-top: 0.5em;
+  margin-bottom: 1.4em; }
+.main.btn-cotar {
+  margin-bottom: 1em; }
+
+.panel-admin.admin-area {
+  margin-top: 30vh; }
+
+.form-control:focus {
+  box-shadow: none; }
+
+/*# sourceMappingURL=main.css.map */

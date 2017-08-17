@@ -1,0 +1,74 @@
+<div ng-controller="agesCtrl">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="text-center title">Insira Faixas Etárias</h1>
+      <hr />
+    </div>
+  </div>
+  <div class="row">
+    <div class="text-center">
+      <p>
+        Informe a idade inicial e a idade final que deseja inserir
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2 col-sm-offset-4">
+      <div class="form-group">
+        <input type="number" ng-model="age.age_initial" class="form-control" min="1" placeholder="Idade Inicial" />
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group">
+        <input type="number" ng-model="age.age_final" class="form-control" min="1" placeholder="Idade Final" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+      <div class="text-center">
+        <div class="form-group">
+          <a href="" class="btn btn-primary btn-block" ng-click="insertAge(age)">Inserir faixa etária</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <ul class="list-group">
+      <li class="list-group-item text-center" ng-repeat="age in ages">
+        <div ng-repeat="table in tables" ng-init="tableIndex = $index">
+          <h3>De {{ age.age_initial }} até {{ age.age_final}} anos</h3>
+          <p>
+            Selecione a linha que deseja relacionar a idade
+          </p>
+          <table class="table table-striped">
+            <thead>
+              <tr ng-repeat="tr in table.thead_tr" ng-init="TrHeadIndex = $index">
+                <th>
+                </th>
+                <th ng-repeat="th in tr.ths" class="text-center remove-outline" tabindex="0">
+                  <span ng-model="th.value"> {{ th.th_value }}</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="tr in table.tbody_tr" ng-init="TrBodyIndex = $index">
+                <td>
+                  <input type="checkbox" ng-checked="showInfo(tr)" value="false" class="form" />
+                </td>
+                <td ng-repeat="td in tr.tds" class="text-center" ng-attr-id="tr.id">
+                  <div class="text-center">
+                    <span>{{ td.td_value }}</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <a href="" class="btn btn-success" ng-click="getSelected()">Salvar</a>
+          <a href="" class="btn btn-danger " ng-click="deleteAge($index, age.id)">Remover faixa etária</a>
+        </div>
+
+      </li>
+    </ul>
+  </div>
+</div>

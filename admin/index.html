@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <script src="/admin/node_modules/angular/angular.js"></script>
+  <script src="/admin/node_modules/angular-route/angular-route.min.js"></script>
+  <script src="/admin/scripts/app.js"></script>
+  <script src="/admin/scripts/controllers/mainctrl.js"></script>
+  <script src="/admin/scripts/controllers/agesctrl.js"></script>
+  <script src="/admin/node_modules/jquery/dist/jquery.js"></script>
+  <script src="/admin/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.4.js"></script>
+  <script src="/admin/node_modules/angular-resource/angular-resource.js"></script>
+  <script src="/admin/scripts/services/table.js"></script>
+  <script src="/admin/node_modules/angular-animate/angular-animate.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/admin/style/main.css" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta charset="utf-8">
+  <title>AngularJS Tables</title>
+</head>
+
+<body ng-app="agreementApp">
+  <nav class="navbar navbar-default" ng-controller="mainCtrl">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Amazonas Seguros</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li ng-class="{ active: isActive('/')}"><a href="#">Tabelas</a></li>
+        <li ng-class="{ active: isActive('/idades')}"><a href="#/idades">Faixas Etárias</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
+    <ng-view></ng-view>
+  </div>
+  <script src="scripts/jquery/tooltip.js"></script>
+</body>
+
+</html>
