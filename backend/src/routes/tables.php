@@ -241,6 +241,12 @@ $app->post('/api/tables/delete', function (Request $request, Response $response)
             ]);
     }
 
+    for ($i = 0; $i < count($trs_tbody); $i++) {
+        $db->delete("ages_tbody_tr", [
+            "id_tbody_tr" => $trs_tbody[$i]['id']
+            ]);
+    }
+
     $db->delete("trs_thead", [
             "id_agreement" => $data['id']
             ]);
@@ -274,16 +280,16 @@ $app->post('/api/tables/th/update/{id}', function (Request $request, Response $r
   ], [
       "id" => $args['id']
   ]);
-  $count = $db->rowCount();
-  if($count > 0) {
-    return $response->withJson(array(
+    $count = $db->rowCount();
+    if ($count > 0) {
+        return $response->withJson(array(
       'response' => 'Th is updated!'
     ));
-  } else {
-    return $response->withJson(array(
+    } else {
+        return $response->withJson(array(
       'response' => 'Error in updating th'
     ));
-  }
+    }
 });
 
 $app->post('/api/tables/td/update/{id}', function (Request $request, Response $response, $args) {
@@ -296,18 +302,16 @@ $app->post('/api/tables/td/update/{id}', function (Request $request, Response $r
       "id" => $args['id']
   ]);
 
-  $count = $result->rowCount();
-  if($count > 0) {
-    return $response->withJson(array(
+    $count = $result->rowCount();
+    if ($count > 0) {
+        return $response->withJson(array(
       'response' => 'Th is updated!'
     ));
-  } else {
-    return $response->withJson(array(
+    } else {
+        return $response->withJson(array(
       'response' => 'Error in updating th'
     ));
-  }
-
-
+    }
 });
 
 // Delete Th from tables
@@ -369,12 +373,12 @@ $app->post('/api/tables/th/create', function (Request $request, Response $respon
 
     $count = $db->id();
 
-    if($count > 0) {
-      return $response->withJson(array(
+    if ($count > 0) {
+        return $response->withJson(array(
         'response' => 'th created with success'
       ));
     } else {
-      return $response->withJson(array(
+        return $response->withJson(array(
         'response' => 'error in creating th'
       ));
     }
@@ -391,12 +395,12 @@ $app->post('/api/tables/td/create', function (Request $request, Response $respon
 
     $count = $db->id();
 
-    if($count > 0) {
-      return $response->withJson(array(
+    if ($count > 0) {
+        return $response->withJson(array(
         'response' => 'td created with success'
       ));
     } else {
-      return $response->withJson(array(
+        return $response->withJson(array(
         'response' => 'error in creating td'
       ));
     }
@@ -406,7 +410,16 @@ $app->get('/api/profession', function (Request $request, Response $response) {
     global $db;
     $data = $request->getParams();
 
-    $profession = $db->select("professions", "*");
+    $profession = $db->query("SELECT * FROM professions")->fetchAll();
+
+    return $response->withJson($profession);
+});
+
+$app->get('/api/profession/distinct', function (Request $request, Response $response) {
+    global $db;
+    $data = $request->getParams();
+
+    $profession = $db->query("select distinct profession_name from professions")->fetchAll();
 
     return $response->withJson($profession);
 });
@@ -470,13 +483,21 @@ $app->post('/api/ages/insert', function (Request $request, Response $response) {
 $app->delete('/api/ages/delete/{id}', function (Request $request, Response $response, $args) {
     global $db;
 
+    $delete_relation = $result = $db->delete("ages_tbody_tr", [
+    "AND" => [
+        "id_age" => $args['id']
+      ]
+    ]);
+
     $result = $db->delete("ages", [
     "AND" => [
         "id" => $args['id']
       ]
     ]);
-    $id = $result->rowCount();
-    if ($id > 0) {
+
+    $id_age = $result->rowCount();
+    $id_tr = $delete_relation->rowCount();
+    if ($id_tr > 0 && $id_age > 0) {
         return $response->withJson(array(
             'response' => 'Age deleted with successfully!'
         ));
@@ -487,10 +508,119 @@ $app->delete('/api/ages/delete/{id}', function (Request $request, Response $resp
     }
 });
 
+$app->post('/api/ages/tbody/tr/insert', function (Request $request, Response $response) {
+    global $db;
+    $data = $request->getParams();
+
+    $db->insert("ages_tbody_tr", [
+    "id_age" => $data['id_age'],
+    "id_tbody_tr" => $data['id_tbody_tr'],
+    ]);
+    $id = $db->id();
+    if ($id > 0) {
+        return $response->withJson(array(
+            'response' => 'Relation inserted successfully!'
+        ));
+    } else {
+        return $response->withJson(array(
+            'response' => 'Error in inserting relation'
+        ));
+    }
+});
+
+$app->post('/api/ages/tbody/tr/delete', function (Request $request, Response $response) {
+    global $db;
+    $data = $request->getParams();
+
+    $result = $db->delete("ages_tbody_tr", [
+    "AND" => [
+        "id_age" => $data['id_age'],
+        "id_tbody_tr" => $data['id_tr']
+      ]
+    ]);
+
+    $id = $result->rowCount();
+
+    if($id > 0) {
+      return $response->withJson(array(
+        'response' => 'Relation deleted successfully'
+      ));
+    } else {
+      return $response->withJson(array(
+        'response' => 'Error in deleting relation'
+      ));
+    }
+
+});
+
 $app->get('/api/ages', function (Request $request, Response $response) {
     global $db;
     $data = $request->getParams();
 
     $data = $db->select('ages', '*');
     return $response->withJson($data);
+});
+
+$app->get('/api/ages/tbody/tr', function (Request $request, Response $response) {
+    global $db;
+    $data = $request->getParams();
+
+    $data = $db->select('ages_tbody_tr', '*');
+    return $response->withJson($data);
+});
+
+$app->post('/api/tables/thead/tr/create', function (Request $request, Response $response) {
+    global $db;
+    $data = $request->getParams();
+
+    $db->insert('trs_thead', [
+    'id_agreement' => $data['id_table']
+    ]);
+
+    $count_tr = $db->id();
+
+    $db->insert('ths_thead', [
+    'id_tr' => $count_tr,
+    'th_value' => 'Nova Coluna'
+    ]);
+
+    $count_th = $db->id();
+
+    if ($count_tr > 0 && $count_th > 0) {
+        return $response->withJson(array(
+        'response' => 'tr and th created with success'
+      ));
+    } else {
+        return $response->withJson(array(
+        'response' => 'error in creating tr and th'
+      ));
+    }
+});
+
+$app->post('/api/tables/tbody/tr/create', function (Request $request, Response $response) {
+    global $db;
+    $data = $request->getParams();
+
+    $db->insert('trs_tbody', [
+    'id_agreement' => $data['id_table']
+    ]);
+
+    $count_tr = $db->id();
+
+    $db->insert('tds_tbody', [
+    'id_tr' => $count_tr,
+    'td_value' => 'Novo Valor'
+    ]);
+
+    $count_th = $db->id();
+
+    if ($count_tr > 0 && $count_th > 0) {
+        return $response->withJson(array(
+        'response' => 'tr and td created with success'
+      ));
+    } else {
+        return $response->withJson(array(
+        'response' => 'error in creating tr and td'
+      ));
+    }
 });
