@@ -12,6 +12,7 @@
     "jquery": "^3.2.1"
   },
   "scripts": {
-    "start": "live-server"
+    "start": "live-server",
+    "sass": "sass --watch style/main.scss:style/main.css"
   }
 }

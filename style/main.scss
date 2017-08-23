@@ -22,6 +22,9 @@ body {
   &.btn-cotar {
     margin-bottom: 1em;
   }
+  &.profession-capitalize {
+    text-transform: capitalize;
+  }
 }
 
 .panel-admin {

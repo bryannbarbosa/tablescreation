@@ -12,6 +12,8 @@ body {
   margin-bottom: 1.4em; }
 .main.btn-cotar {
   margin-bottom: 1em; }
+.main.profession-capitalize {
+  text-transform: capitalize; }
 
 .panel-admin.admin-area {
   margin-top: 30vh; }

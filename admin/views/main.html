@@ -38,13 +38,18 @@
         <div class="text-center" ng-if="table.id != null">
           <h4>Profissões</h4>
           <div class="form-group">
-            <button class="btn btn-danger btn-margin" ng-click="removeProfession(table.id, profession.id)" data-toggle="tooltip" data-placement="top" title="Remover profissão" ng-if="profession.id_agreement = table.id" ng-repeat="profession in professions">{{ profession.profession_name }}</button>
+            <button class="btn btn-default capitalize btn-margin profession" ng-if="table.id == profession.id_agreement" ng-click="removeProfession(table.id, profession.id)" data-toggle="tooltip" data-placement="top" title="Remover profissão" ng-if="profession.id_agreement = table.id" ng-repeat="profession in professions">{{ profession.profession_name }}</button>
+            <p ng-if="professions.length == 0">
+              Não há profissões inseridas no momento
+            </p>
           </div>
         </div>
         <div class="form-group text-center">
           <button type="button" data-toggle="tooltip" data-placement="bottom" title="Remover tabela" ng-click="removeTable($index, table.id)" class="btn btn-danger danger"><i class="material-icons remove-icon">delete</i></button>
-          <button type="button" ng-init="column = false" ng-click="insertHeadTr($index); column = true" class="btn btn-primary btn-margin danger" data-toggle="tooltip" data-placement="bottom" title="Adicionar estrutura de coluna"><i class="material-icons">add_box</i></button>
-          <button type="button" ng-click="insertBodyTr($index)" class="btn btn-warning danger" data-toggle="tooltip" ng-disabled="!column" data-placement="bottom" title="Adicionar estrutura de linhas"><i class="material-icons">add_to_photos</i></button>
+          <button type="button" ng-if="table.id != null" ng-click="insertHeadTr($index, table.id);" class="btn btn-primary btn-margin danger" data-toggle="tooltip" data-placement="bottom" title="Adicionar estrutura de coluna"><i class="material-icons">add_box</i></button>
+          <button type="button" ng-if="table.id == null" ng-click="insertHeadTrInitial($index);" class="btn btn-primary btn-margin danger" data-toggle="tooltip" data-placement="bottom" title="Adicionar estrutura de coluna"><i class="material-icons">add_box</i></button>
+          <button type="button" ng-if="table.id != null" ng-click="insertBodyTr($index, table.id)" class="btn btn-warning danger" data-toggle="tooltip" data-placement="bottom" title="Adicionar estrutura de linhas"><i class="material-icons">add_to_photos</i></button>
+          <button type="button" ng-if="table.id == null" ng-click="insertBodyTrInitial($index)" class="btn btn-warning danger" data-toggle="tooltip" data-placement="bottom" title="Adicionar estrutura de linhas"><i class="material-icons">add_to_photos</i></button>
           <!--<button type="button" ng-click="check()" class="btn btn-default danger" data-toggle="tooltip" data-placement="bottom" title="Ver status da aplicação"><i class="material-icons">add_to_photos</i></button>-->
         </div>
       </div>
@@ -66,7 +71,8 @@
       </div>
     </div>
   </div>
-  <table class="table table-striped">
+  <br />
+  <table class="table table-hover">
     <thead>
       <tr ng-repeat="tr in table.thead_tr" ng-init="TrHeadIndex = $index">
         <th ng-repeat="th in tr.ths" class="text-center remove-outline" tabindex="0">
@@ -93,7 +99,7 @@
             <div class="text-center">
             <input type="text" class="form-control btn-option-margin" ng-model="td.td_value">
             <input type='button' ng-click='removeTd(tableIndex, TrBodyIndex, $index, td.id)' value='Remover Item' ng-if="table.id != null" class='btn btn-danger btn-block'>
-            <input type='button' ng-click='saveTd(tableIndex, TrBodyIndex, $index, td.id)' value='Salvar Informações' ng-if="table.id != null" class='btn btn-success btn-block'>
+            <input type='button' ng-click='saveTd(tableIndex, TrBodyIndex, $index, td.id)' value='Salvar Alterações' ng-if="table.id != null" class='btn btn-success btn-block'>
             <input type='button' ng-click='removeTdInitial(tableIndex, TrBodyIndex, $index)' value='Remover Item' ng-if="table.id == null" class='btn btn-danger btn-block'>
           </div>
           </script>

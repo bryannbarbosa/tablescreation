@@ -77,3 +77,19 @@ body {
   background-color: #0069d9;
   border-color: #0062cc;
 }
+
+tr.selected {
+  background-color: #fde5e5 !important;
+}
+
+.none {
+  display: none;
+}
+.capitalize {
+  text-transform: capitalize;
+}
+
+.margin-option {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}

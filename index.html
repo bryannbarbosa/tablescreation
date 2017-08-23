@@ -87,7 +87,7 @@
         <div class="col-sm-5 col-md-4 col-sm-offset-4 col-md-offset-4">
           <select class="form-control" name="profession" ng-model="profession" id="profession" required>
           <option selected disabled value="">Selecione a profissão que deseja cotar</option>
-          <option value="{{'p' + ($index+1)}}" ng-repeat="prof in professions">{{ prof.profession_name }}</option>
+          <option class="main profession-capitalize" value="{{'p' + ($index+1)}}" ng-repeat="prof in professions">{{ prof.profession_name }}</option>
         </select>
         </div>
       </div>
